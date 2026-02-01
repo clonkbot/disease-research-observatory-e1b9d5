@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disease Research Observatory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg-primary: #0a0a0f;
+        --bg-secondary: #12121a;
+        --bg-tertiary: #1a1a25;
+        --border-dim: #2a2a3a;
+        --border-glow: #3a3a5a;
+        --text-primary: #e8e8f0;
+        --text-secondary: #9898a8;
+        --text-muted: #606070;
+        --accent-cyan: #00d4ff;
+        --accent-magenta: #ff006e;
+        --accent-green: #00ff88;
+        --accent-yellow: #ffcc00;
+        --accent-orange: #ff6b35;
+        --accent-red: #ff2d55;
+        --accent-purple: #bf00ff;
+      }
+      
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Instrument Sans', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        margin: 0;
+        min-height: 100vh;
+      }
+      
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      
+      .scanlines {
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.15) 2px,
+          rgba(0, 0, 0, 0.15) 4px
+        );
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+      }
+      
+      .grid-bg {
+        background-image: 
+          linear-gradient(rgba(42, 42, 58, 0.3) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 42, 58, 0.3) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      
+      @keyframes pulse-glow {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+      }
+      
+      @keyframes data-stream {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+      
+      .severity-critical { --severity-color: var(--accent-purple); }
+      .severity-high { --severity-color: var(--accent-red); }
+      .severity-elevated { --severity-color: var(--accent-orange); }
+      .severity-moderate { --severity-color: var(--accent-yellow); }
+      .severity-low { --severity-color: var(--accent-green); }
+      
+      .severity-indicator {
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+      
+      .card-glow {
+        box-shadow: 
+          0 0 0 1px var(--border-dim),
+          0 4px 24px -4px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+      
+      .card-glow:hover {
+        box-shadow: 
+          0 0 0 1px var(--border-glow),
+          0 8px 32px -4px rgba(0, 0, 0, 0.6),
+          0 0 40px -10px var(--severity-color),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+      
+      .progress-bar {
+        background: linear-gradient(90deg, 
+          var(--severity-color) 0%, 
+          transparent 100%);
+        animation: data-stream 3s linear infinite;
+        background-size: 200% 100%;
+      }
+      
+      .stat-value {
+        background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .header-gradient {
+        background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .noise-overlay {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scanlines"></div>
+    <div class="noise-overlay"></div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
